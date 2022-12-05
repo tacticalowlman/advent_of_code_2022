@@ -1,7 +1,6 @@
-with open('task2') as f:
+with open('input') as f:
     lines = f.readlines()
 pairs = [(i.strip()).split() for i in lines]
-
 en={
     'A':1,
     'B':2,
@@ -14,17 +13,21 @@ mn={
 }
 ct=0
 
-#TASK2 a)
-#for i in range(len(pairs)-1):
-#    ep = en[pairs[i][0]]
-#    mp = mn[pairs[i][1]]
-#    if ep == mp:
-#        ct+=3+mp
-#    elif (ep > mp or (ep==1 and mp==3)) and not(ep==3 and mp==1):
-#        ct+=mp
-#    else:
-#        ct+=6+mp
+#TASK1
+for i in range(len(pairs)-1):
+    ep = en[pairs[i][0]]
+    mp = mn[pairs[i][1]]
+    if ep == mp:
+        ct+=3+mp
+    elif (ep > mp or (ep==1 and mp==3)) and not(ep==3 and mp==1):
+        ct+=mp
+    else:
+        ct+=6+mp
 
+print(ct)
+ct=0
+
+#TASK2
 for i in range(len(pairs)-1):
     ep = en[pairs[i][0]]
     mp = mn[pairs[i][1]]

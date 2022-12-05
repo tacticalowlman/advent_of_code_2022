@@ -1,4 +1,4 @@
-f = open("task1.txt", "r")
+f = open("input", "r")
 longst=f.read()
 longst=longst.replace('\n\n', '\n@\n')
 longst=longst.split()
@@ -7,11 +7,13 @@ ct1=0
 ct2=0
 ct3=0
 ctcr=0
+
+#BOTH FOR PART1 AND PART2 SINCE PART1 IS A SUBTASK OF PART2
 for i in longst:
     if i!='@':
         cr.append(i)
     else:
-        print(cr, ctcr, ct1, ct2, ct3)
+        #print(cr, ctcr, ct1, ct2, ct3)
         for k in cr:
             ctcr+=int(k)
         if ctcr>ct3:
@@ -30,4 +32,4 @@ for i in longst:
         ctcr=0
 
 
-print(ct1+ct2+ct3)
+print(ct3, ct1+ct2+ct3)
