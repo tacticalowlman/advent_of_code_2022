@@ -12,19 +12,14 @@ def check(s, st):
     return True
 
 def find(longst):
-    ctsp=0
-    for i in range(len(longst) - mln):
-
-        ctsp+=1
-        print(i, ctsp)
-        ct = 0
-        sst = longst[i:i + mln]
+    for i in range(len(longst)-mln):
+        ct=0
+        sst=longst[i:i+mln]
         for k in sst:
             if check(k, sst):
                 ct+=1
-                print(ct)
-        if ct==14:
-            return ctsp+mln-1
+        if ct==mln:
+            return i+mln
 
 print(find(longst))
 
