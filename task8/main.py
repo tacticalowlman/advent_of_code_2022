@@ -1,3 +1,12 @@
+#VERY BAD CODE DON'T USE!!!
+
+
+
+
+
+
+
+
 with open('input') as f:
     lines = f.readlines()
 trs_hdn_mx=[]
@@ -18,10 +27,8 @@ def check_h(mx):
         max_h = 0
         for i in k:
             if ct>0 and i<=max_h:
-                #print(i, max_h, 'h')
                 trs_hdn_ln.append('h')
             else:
-                #print(i, max_h, 'v')
                 trs_hdn_ln.append('v')
             if i>max_h:
                 max_h=i
@@ -33,9 +40,7 @@ def check_h(mx):
 def rotate(trs_mx):
     rows = len(trs_mx)
     cols = len(trs_mx)
-
     new_mx = [[""] * rows for _ in range(cols)]
-
     for x in range(rows):
         for y in range(cols):
             new_mx[y][rows - x - 1] = trs_mx[x][y]
@@ -49,7 +54,6 @@ def inverse(trs_mx):
             new_ln.append(trs_mx[i][k])
         new_mx.append(new_ln)
     return new_mx
-
 
 def inverse_fx(trs_mx):
     new_mx=[]
@@ -165,21 +169,17 @@ def ct_st(trs_mx):
             ct1=0
             ct2=0
             stp=True
-            #if i==0:
-            #print(el, ls, rs)
             for z in ls:
                 if stp:
                     ct1 += 1
                     if el <= z:
                         stp = False
-            #print(el, z, ct1)
             stp=True
             for z in rs:
                 if stp:
                     ct2 += 1
                     if el<=z:
                         stp = False
-            #print(el, z, ct1)
             new_ln.append(ct1 * ct2)
         new_mx.append(new_ln)
     return new_mx
@@ -190,15 +190,6 @@ def ct_st(trs_mx):
 # mx2=inverse_fx(check_h(inverse_fx(trs_mx)))
 # mx3=rotate_back(check_h(rotate(trs_mx)))
 # mx4=rotate(check_h(rotate_back(trs_mx)))
-#
-# print_mx(mx1)
-# print('\n\n')
-# print_mx(mx2)
-# print('\n\n')
-# print_mx(mx3)
-# print('\n\n')
-# print_mx(mx4)
-#
 # ct=0
 # for i in range(len(mx1)):
 #     for k in range(len(mx1)):
@@ -206,6 +197,7 @@ def ct_st(trs_mx):
 #             ct+=1
 #
 # print(ct)
+
 mx1=ct_st(trs_mx)
 mx2=rotate(ct_st(rotate_back(trs_mx)))
 fmx=[]
