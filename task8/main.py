@@ -1,41 +1,144 @@
 with open('input') as f:
     lines = f.readlines()
 trs_hdn_mx=[]
+trs_mx=[]
 for i in lines:
     trs_ln=[]
-    for k in lines[i]:
-        trs_ln.append(int(lines[i][k].strip()))
-    trs_hdn_mx.append(trs_ln)
+    for k in i:
+        if k.isdigit():
+            trs_ln.append(int(k))
+    trs_mx.append(trs_ln)
 
-print(trs_hdn_mx)
+def check_h(mx):
+    trs_hdn_mx=[]
+    ct0=0
+    for k in mx:
+        ct = 0
+        trs_hdn_ln = []
+        max_h = 0
+        for i in k:
+            if ct>0 and i<=max_h:
+                #print(i, max_h, 'h')
+                trs_hdn_ln.append('h')
+            else:
+                #print(i, max_h, 'v')
+                trs_hdn_ln.append('v')
+            if i>max_h:
+                max_h=i
+            ct+=1
+        trs_hdn_mx.append(trs_hdn_ln)
+        ct0+=1
+    return trs_hdn_mx
 
-def check_h(line):
-    max_h=0
-    ths_hdn_ln=[]
-    for i in line:
-        ii=int(i)
-        if ii>0 and ii<99 and ii<=max_h:
-            print(ii, max_h, 'h')
-            ths_hdn_ln.append('h')
-        else:
-            print(ii, max_h, 'v')
-            ths_hdn_ln.append('v')
-        if ii>max_h:
-            max_h=ii
-    return ths_hdn_ln
+def rotate(trs_mx):
+    rows = len(trs_mx)
+    cols = len(trs_mx)
 
-# print('231424301543353234613653325560166326262063626431047044000133041410622363320013444135310231215142114')
-# print(check_h('231424301543353234613653325560166326262063626431047044000133041410622363320013444135310231215142114'))
+    new_mx = [[""] * rows for _ in range(cols)]
 
-
-def rows_to_cols(lines):
-    new_mx=[]
-    for i in lines:
-        newst=''
-        for k in lines:
-            newst+=lines[k][i]
-        new_mx.append(newst)
+    for x in range(rows):
+        for y in range(cols):
+            new_mx[y][rows - x - 1] = trs_mx[x][y]
     return new_mx
 
-# print(lines)
-# print(rows_to_cols(lines))
+def inverse(trs_mx):
+    new_mx=[]
+    for i in range(len(trs_mx)-1, -1, -1):
+        new_ln=[]
+        for k in range(len(trs_mx)-1, -1, -1):
+            new_ln.append(trs_mx[i][k])
+        new_mx.append(new_ln)
+    return new_mx
+
+
+def inverse_fx(trs_mx):
+    new_mx=[]
+    for i in range(len(trs_mx)):
+        new_ln=[]
+        for k in range(len(trs_mx)-1, -1, -1):
+            #print(trs_mx[i][k])
+            new_ln.append(trs_mx[i][k])
+        new_mx.append(new_ln)
+    return new_mx
+
+def rotate_back(trs_mx):
+    new_mx=trs_mx
+    for i in range(3):
+        new_mx=rotate(new_mx)
+    return new_mx
+
+def print_mx(trs_mx):
+    for i in trs_mx:
+        pnst=''
+        for k in i:
+            pnst+=' '+str(k)+' '
+        print(pnst)
+
+
+def ct_sc(trs_mx):
+    new_mx=[]
+    #print(trs_mx[0])
+    for i in range(len(trs_mx)):
+        new_ln=[]
+        for k in range(len(trs_mx)):
+            ct1=1
+            ct2=1
+            cte=0
+            thl=0
+            thr=0
+            ctm=0
+            el=trs_mx[i][k]
+            ls=trs_mx[i][:k][::-1]
+            rs=trs_mx[i][k:]
+            rs.pop(0)
+            # if i<5 and k<5:
+            #     print(el, ls,  rs)
+            if len(ls)>0:
+                thl = ls[cte]
+                while el<thl and len(ls)>cte:
+                    el = ls[cte]
+                    ct1+=1
+                    cte+=1
+                    if ct1>10:
+                        print('AAAAAAAAAA', el, thl)
+            cte=0
+            if len(rs)>0:
+                thr = rs[cte]
+                while el<thr and len(rs)>cte:
+                    el = rs[cte]
+                    ct2+=1
+                    cte+=1
+            if ct1*ct2>ctm:
+                ctm=ct1*ct2
+                print(ctm)
+                #print(ct1*ct2, el, thl, thr, ls, rs, '\n\n\n')
+            new_ln.append(ct1*ct2)
+        new_mx.append(new_ln)
+
+    return new_mx
+
+
+
+#PART1
+# mx1=check_h(trs_mx)
+# mx2=inverse_fx(check_h(inverse_fx(trs_mx)))
+# mx3=rotate_back(check_h(rotate(trs_mx)))
+# mx4=rotate(check_h(rotate_back(trs_mx)))
+#
+# print_mx(mx1)
+# print('\n\n')
+# print_mx(mx2)
+# print('\n\n')
+# print_mx(mx3)
+# print('\n\n')
+# print_mx(mx4)
+#
+# ct=0
+# for i in range(len(mx1)):
+#     for k in range(len(mx1)):
+#         if mx1[i][k]=='v' or mx2[i][k]=='v' or mx3[i][k]=='v' or mx4[i][k]=='v':
+#             ct+=1
+#
+# print(ct)
+
+print_mx(ct_sc(trs_mx))
