@@ -213,17 +213,4 @@ print(ct)
 # print(maxi)
 #print(*mx1, sep='\n')
 
-print('job one')
-
-print('job two')
-
-print('job three')
-
-
-print('job onee')
-
-print('job twoo')
-
-print('job threee')
-
 
