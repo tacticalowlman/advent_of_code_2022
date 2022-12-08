@@ -1,12 +1,3 @@
-#VERY BAD CODE DON'T USE!!!
-
-
-
-
-
-
-
-
 with open('input') as f:
     lines = f.readlines()
 trs_hdn_mx=[]
@@ -77,6 +68,12 @@ def print_mx(trs_mx):
         for k in i:
             pnst+=' '+str(k)+' '
         print(pnst)
+
+# def print_mx2(trs_mx):
+#     pnst = ''
+#     [[pnst+=str[k] for k in i] for i in trs_mx]
+
+
 
 
 # def ct_sc(trs_mx):
@@ -186,31 +183,33 @@ def ct_st(trs_mx):
 
 
 #PART1
-# mx1=check_h(trs_mx)
-# mx2=inverse_fx(check_h(inverse_fx(trs_mx)))
-# mx3=rotate_back(check_h(rotate(trs_mx)))
-# mx4=rotate(check_h(rotate_back(trs_mx)))
-# ct=0
-# for i in range(len(mx1)):
-#     for k in range(len(mx1)):
-#         if mx1[i][k]=='v' or mx2[i][k]=='v' or mx3[i][k]=='v' or mx4[i][k]=='v':
-#             ct+=1
-#
-# print(ct)
-
-mx1=ct_st(trs_mx)
-mx2=rotate(ct_st(rotate_back(trs_mx)))
-fmx=[]
-maxi=0
-print_mx(mx1)
-print('\n\n')
-print_mx(mx2)
+mx1=check_h(trs_mx)
+mx2=inverse_fx(check_h(inverse_fx(trs_mx)))
+mx3=rotate_back(check_h(rotate(trs_mx)))
+mx4=rotate(check_h(rotate_back(trs_mx)))
+ct=0
 for i in range(len(mx1)):
-    fln=[]
     for k in range(len(mx1)):
-        fln.append(mx1[i][k]*mx2[i][k])
-        if mx1[i][k]*mx2[i][k]>maxi:
-            maxi=mx1[i][k]*mx2[i][k]
-    fmx.append(fln)
-print_mx(fmx)
-print(maxi)
+        if mx1[i][k]=='v' or mx2[i][k]=='v' or mx3[i][k]=='v' or mx4[i][k]=='v':
+            ct+=1
+
+print(ct)
+#PART2
+# mx1=ct_st(trs_mx)
+# mx2=rotate(ct_st(rotate_back(trs_mx)))
+# fmx=[]
+# maxi=0
+# print_mx(mx1)
+# print('\n\n')
+# print_mx(mx2)
+# for i in range(len(mx1)):
+#     fln=[]
+#     for k in range(len(mx1)):
+#         fln.append(mx1[i][k]*mx2[i][k])
+#         if mx1[i][k]*mx2[i][k]>maxi:
+#             maxi=mx1[i][k]*mx2[i][k]
+#     fmx.append(fln)
+# print_mx(fmx)
+# print(maxi)
+#print(*mx1, sep='\n')
+
