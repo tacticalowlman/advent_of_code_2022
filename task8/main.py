@@ -118,6 +118,41 @@ def print_mx(trs_mx):
 #     return new_mx
 
 
+# def ct_st(trs_mx):
+#     new_mx=[]
+#     for i in range(len(trs_mx)):
+#         new_ln=[]
+#         for k in range(len(trs_mx)):
+#             el=trs_mx[i][k]
+#             ls=trs_mx[i][:k][::-1]
+#             rs=trs_mx[i][k:]
+#             ct1=0
+#             ct2=0
+#             ctc=0
+#             rs.pop(0)
+#             #print(el, ls, rs)
+#             if ls!=[]:
+#                 while len(ls)>ctc and el>ls[ctc]:
+#                     ct1+=1
+#                     ctc+=1
+#                 if el==ls[ctc]:
+#                     ct1+=1
+#             else:
+#                 ct1=0
+#             ctc=0
+#             if rs!=[]:
+#                 while len(rs)>ctc and el>rs[ctc]:
+#                     ct2+=1
+#                     ctc+=1
+#                 if el==rs[ctc]:
+#                     ct2+=1
+#             else:
+#                 ct2=0
+#             #print(ct1, ct2)
+#             new_ln.append(ct1 * ct2)
+#         new_mx.append(new_ln)
+#     return new_mx
+
 def ct_st(trs_mx):
     new_mx=[]
     for i in range(len(trs_mx)):
@@ -126,29 +161,25 @@ def ct_st(trs_mx):
             el=trs_mx[i][k]
             ls=trs_mx[i][:k][::-1]
             rs=trs_mx[i][k:]
+            rs.pop(0)
             ct1=0
             ct2=0
-            ctc=0
-            rs.pop(0)
+            stp=True
+            #if i==0:
             #print(el, ls, rs)
-            if ls!=[]:
-                while len(ls)>ctc and el>ls[ctc]:
-                    ct1+=1
-                    ctc+=1
-                if el==ls[ctc]:
-                    ct1+=1
-            else:
-                ct1=0
-            ctc=0
-            if rs!=[]:
-                while len(rs)>ctc and el>rs[ctc]:
-                    ct2+=1
-                    ctc+=1
-                if el==rs[ctc]:
-                    ct2+=1
-            else:
-                ct2=0
-            #print(ct1, ct2)
+            for z in ls:
+                if stp:
+                    ct1 += 1
+                    if el <= z:
+                        stp = False
+            #print(el, z, ct1)
+            stp=True
+            for z in rs:
+                if stp:
+                    ct2 += 1
+                    if el<=z:
+                        stp = False
+            #print(el, z, ct1)
             new_ln.append(ct1 * ct2)
         new_mx.append(new_ln)
     return new_mx
@@ -176,8 +207,18 @@ def ct_st(trs_mx):
 #
 # print(ct)
 mx1=ct_st(trs_mx)
-mx2=ct_st(rotate_back(trs_mx))
-
+mx2=rotate(ct_st(rotate_back(trs_mx)))
+fmx=[]
+maxi=0
 print_mx(mx1)
 print('\n\n')
 print_mx(mx2)
+for i in range(len(mx1)):
+    fln=[]
+    for k in range(len(mx1)):
+        fln.append(mx1[i][k]*mx2[i][k])
+        if mx1[i][k]*mx2[i][k]>maxi:
+            maxi=mx1[i][k]*mx2[i][k]
+    fmx.append(fln)
+print_mx(fmx)
+print(maxi)
