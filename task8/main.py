@@ -75,48 +75,83 @@ def print_mx(trs_mx):
         print(pnst)
 
 
-def ct_sc(trs_mx):
+# def ct_sc(trs_mx):
+#     new_mx=[]
+#     #print(trs_mx[0])
+#     for i in range(len(trs_mx)):
+#         new_ln=[]
+#         for k in range(len(trs_mx)):
+#             ct1=1
+#             ct2=1
+#             cte=0
+#             thl=0
+#             thr=0
+#             ctm=0
+#             el=trs_mx[i][k]
+#             ls=trs_mx[i][:k][::-1]
+#             rs=trs_mx[i][k:]
+#             rs.pop(0)
+#             # if i<5 and k<5:
+#             #     print(el, ls,  rs)
+#             if len(ls)>0:
+#                 thl = ls[cte]
+#                 while el<thl and len(ls)>cte:
+#                     el = ls[cte]
+#                     ct1+=1
+#                     cte+=1
+#                     if ct1>10:
+#                         print('AAAAAAAAAA', el, thl)
+#             cte=0
+#             if len(rs)>0:
+#                 thr = rs[cte]
+#                 while el<thr and len(rs)>cte:
+#                     el = rs[cte]
+#                     ct2+=1
+#                     cte+=1
+#             if ct1*ct2>ctm:
+#                 ctm=ct1*ct2
+#                 print(ctm)
+#                 #print(ct1*ct2, el, thl, thr, ls, rs, '\n\n\n')
+#             new_ln.append(ct1*ct2)
+#         new_mx.append(new_ln)
+#
+#     return new_mx
+
+
+def ct_st(trs_mx):
     new_mx=[]
-    #print(trs_mx[0])
     for i in range(len(trs_mx)):
         new_ln=[]
         for k in range(len(trs_mx)):
-            ct1=1
-            ct2=1
-            cte=0
-            thl=0
-            thr=0
-            ctm=0
             el=trs_mx[i][k]
             ls=trs_mx[i][:k][::-1]
             rs=trs_mx[i][k:]
+            ct1=0
+            ct2=0
+            ctc=0
             rs.pop(0)
-            # if i<5 and k<5:
-            #     print(el, ls,  rs)
-            if len(ls)>0:
-                thl = ls[cte]
-                while el<thl and len(ls)>cte:
-                    el = ls[cte]
+            #print(el, ls, rs)
+            if ls!=[]:
+                while len(ls)>ctc and el>ls[ctc]:
                     ct1+=1
-                    cte+=1
-                    if ct1>10:
-                        print('AAAAAAAAAA', el, thl)
-            cte=0
-            if len(rs)>0:
-                thr = rs[cte]
-                while el<thr and len(rs)>cte:
-                    el = rs[cte]
+                    ctc+=1
+                if el==ls[ctc]:
+                    ct1+=1
+            else:
+                ct1=0
+            ctc=0
+            if rs!=[]:
+                while len(rs)>ctc and el>rs[ctc]:
                     ct2+=1
-                    cte+=1
-            if ct1*ct2>ctm:
-                ctm=ct1*ct2
-                print(ctm)
-                #print(ct1*ct2, el, thl, thr, ls, rs, '\n\n\n')
-            new_ln.append(ct1*ct2)
+                    ctc+=1
+                if el==rs[ctc]:
+                    ct2+=1
+            else:
+                ct2=0
+            #print(ct1, ct2)
+            new_ln.append(ct1 * ct2)
         new_mx.append(new_ln)
-
     return new_mx
-
 
 
 #PART1
@@ -140,5 +175,9 @@ def ct_sc(trs_mx):
 #             ct+=1
 #
 # print(ct)
+mx1=ct_st(trs_mx)
+mx2=ct_st(rotate_back(trs_mx))
 
-print_mx(ct_sc(trs_mx))
+print_mx(mx1)
+print('\n\n')
+print_mx(mx2)
