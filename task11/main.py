@@ -36,6 +36,7 @@ def monkey_mode(monkeys, k):
                 monkey_thing = (i*i)
             else:
                 monkey_thing = (i*int(monkey[2][1]))
+        monkey_thing=monkey_thing
         if monkey_thing%monkey[3][0]==0:
             monkeys[monkey[4][0]][1].append(monkey_thing)
         else:
