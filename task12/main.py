@@ -3,10 +3,6 @@ import json
 with open('input') as f:
     lines = f.readlines()
 
-g = open("input2", "r")
-
-fordendict = json.load(g)
-
 
 def letters_to_nums(lines):
     height_mx = []
@@ -113,19 +109,6 @@ dists = {coord_translator_reverse(*start_point): 0}
 print('SAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', coord_translator_reverse(*end_point))
 
 
-a = {int(k): v for k, v in fordendict.items()}
-
-# print(fordendict)
-# for i in range(len(graph)):
-#     print(i)
-#     try:
-#         print(graph[i], a[i])
-#     except:
-#         print(i)
-
-
-if a == graph:
-    print('HUI')
 
 while queue != []:
     # print(queue)
