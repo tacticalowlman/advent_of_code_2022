@@ -89,7 +89,11 @@ while lines[ct]!='END':
     else:
         ct+=1
 
-print(summ_count(tree)[1], min(tree, 70000000)[1])#PART1 PART2 IN THAT ORDER
+
+
+
+print(tree)
+#print(summ_count(tree)[1], min(tree, 70000000)[1])#PART1 PART2 IN THAT ORDER
 
 
 
