@@ -2,12 +2,11 @@ f = open('input', 'r')
 
 input_st = f.read()
 
+dl = 0
 clock = 0
 stable_rocks = 0
 empty_str = '.......'
 tetris_mx = [empty_str for i in range(3)]
-
-
 
 
 def print_mx(mx):
@@ -24,84 +23,98 @@ def command(clock):
 
 
 def horizontal_stick(tetris_mx, clock):
+    tetris_mx.reverse()
+    tetris_mx.append('..@@@@.')
+    tetris_mx.reverse()
+    figure_x = 2
+    figure_y = 0
     print_mx(tetris_mx)
-    print(command(clock), '\n')
-    if command(clock) == '<':
-        tetris_mx[0] = '.@@@@..'
-    else:
-        tetris_mx[0] = '...@@@@'
-    figure_pos = tetris_mx[0].find('@')
-    clock += 1
-    next_st = tetris_mx[1][figure_pos:figure_pos + 4]
-    while next_st != '' and next_st == '....':
-        print_mx(tetris_mx)
-        print(command(clock), clock, '\n')
-        figure_pos = tetris_mx[0].find('@')
-        if command(clock) == '<' and figure_pos != 0:
-            figure_pos -= 1
-        elif command(clock) == '>' and figure_pos != 3:
-            figure_pos += 1
-        tetris_mx[1] = tetris_mx[1][:figure_pos] + '@@@@' + tetris_mx[1][figure_pos + 4:]
-        tetris_mx.pop(0)
-        if len(tetris_mx) != 1:
-            next_st = tetris_mx[1][figure_pos:figure_pos + 4]
-        else:
-            next_st = ''
+    print(command(clock))
+    while figure_y + 1 < len(tetris_mx) and tetris_mx[figure_y + 1][figure_x:figure_x + 4] == '....':
+        if command(clock) == '<' and figure_x != 0 and tetris_mx[figure_y][figure_x - 1] == '.':
+            figure_x -= 1
+        elif command(clock) == '>' and figure_x != 3 and tetris_mx[figure_y][figure_x + 4] == '.':
+            figure_x += 1
+        figure_y += 1
         clock += 1
+        tetris_mx[figure_y - 1] = tetris_mx[figure_y - 1].replace('@', '.')
+        tetris_mx[figure_y] = tetris_mx[figure_y][:figure_x] + '@@@@' + tetris_mx[figure_y][figure_x + 4:]
+        print_mx(tetris_mx)
+        print(command(clock))
+    tetris_mx[figure_y] = tetris_mx[figure_y].replace('@', '#')
     return [tetris_mx, clock]
 
 
 def vertical_stick(tetris_mx, clock):
     tetris_mx.reverse()
-    for i in range(4): tetris_mx.append('..@....')
+    for i in range(4):
+        tetris_mx.append('..@....')
     tetris_mx.reverse()
+    space_free_l, space_free_r = True, True
+    figure_x = 2
+    figure_y = 0
     print_mx(tetris_mx)
-    figure_pos = tetris_mx[0].find('@')
-    if command(clock) == '<':
-        for i in range(4): tetris_mx[i] = '.@.....'
-    else:
-        for i in range(4): tetris_mx[i] = '...@...'
-    clock += 1
-    next_st = tetris_mx[1][figure_pos]
-    while next_st != '' and next_st == '.':
-        merge_st = tetris_mx[1]
-        tetris_mx[1] = tetris_mx[0]
-        tetris_mx.pop(0)
-        new_st = ''
-        figure_pos = tetris_mx[0].find('@')
-        if command(clock) == '<' and figure_pos != 0:
-            figure_pos -= 1
-            new_st = merge_st[:figure_pos] + '@' + merge_st[figure_pos + 1:]
-            for i in range(4): tetris_mx[i] = new_st
-
-            figure_pos -= 1
-            tetris_mx[0] = new_st
-
-
-
-        elif command(clock) == '>' and figure_pos != 3:
-            figure_pos += 1
-            for i in range(figure_pos): new_st += '.'
-            new_st += '@'
-            for i in range(6 - figure_pos): new_st += '.'
-            for i in range(4): tetris_mx[i] = new_st
-        if len(tetris_mx) != 1:
-            next_st = tetris_mx[1][figure_pos:figure_pos + 4]
-        else:
-            next_st = ''
+    print(command(clock))
+    while figure_y + 4 < len(tetris_mx) and tetris_mx[figure_y + 4][figure_x] == '.':
+        if command(clock) == '<' and figure_x != 0:
+            for i in range(4):
+                space_free_l = True
+                if not (tetris_mx[figure_y + i][figure_x - 1] == '.'):
+                    space_free_l = False
+            if space_free_l:
+                figure_x -= 1
+        elif command(clock) == '>' and figure_x != 6:
+            for i in range(4):
+                space_free_r = True
+                if not (tetris_mx[figure_y + i][figure_x + 1] == '.'):
+                    space_free_r = False
+            if space_free_r:
+                figure_x += 1
         clock += 1
+        if tetris_mx[figure_y + 4][figure_x] == '.':
+            figure_y += 1
+            for i in range(4):
+                tetris_mx[figure_y + i - 1] = tetris_mx[figure_y + i - 1].replace('@', '.')
+            for i in range(4):
+                tetris_mx[figure_y + i] = tetris_mx[figure_y + i][:figure_x] + '@' + tetris_mx[figure_y + i][figure_x + 1:]
+        else:
+            for i in range(4):
+                tetris_mx[figure_y + i] = tetris_mx[figure_y + i].replace('@', '.')
+                tetris_mx[figure_y + i] = tetris_mx[figure_y + i][:figure_x] + '@' + tetris_mx[figure_y + i][figure_x + 1:]
+        print_mx(tetris_mx)
+        print(command(clock))
+    for i in range(4):
+        tetris_mx[figure_y + i] = tetris_mx[figure_y + i].replace('@', '#')
     return [tetris_mx, clock]
 
 
-while clock < 100:
-    for i in range(3):
-        if tetris_mx[i] != empty_str:
-            tetris_mx.reverse()
-            for k in range(3 - i):
-                tetris_mx.append(empty_str)
-            tetris_mx.reverse()
+
+def square(tetris_mx, clock):
+    tetris_mx.reverse()
+    for i in range(2): tetris_mx.append('..@@...')
+    tetris_mx.reverse()
+    space_free_l, space_free_r = True, True
+    figure_x = 2
+    figure_y = 0
+    print_mx(tetris_mx)
+    print(command(clock))
+    while figure_y + 2 < len(tetris_mx) and tetris_mx[figure_y + 2][figure_x:figure_x + 2] == '..':
+        pass
+    return [tetris_mx, clock]
+
+
+while clock < 50:
+    while len(tetris_mx) > 0 and tetris_mx[0] == empty_str:
+        tetris_mx.pop(0)
+    tetris_mx.reverse()
+    for i in range(3): tetris_mx.append(empty_str)
+    tetris_mx.reverse()
+    tetris_mx, clock = vertical_stick(tetris_mx, clock)
+    print_mx(tetris_mx)
     tetris_mx, clock = horizontal_stick(tetris_mx, clock)
     print_mx(tetris_mx)
+    # tetris_mx, clock = square(tetris_mx, clock)
+    # print_mx(tetris_mx)
     print('                     cycle!')
 
 # while stable_rocks < 6:
